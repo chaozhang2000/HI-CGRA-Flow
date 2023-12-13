@@ -1,0 +1,6 @@
+[submodule "HIT-CGRA-Mapper"]
+	path = HIT-CGRA-Mapper
+	url = git@github.com:chaozhang2000/HIT-CGRA-Mapper.git
+[submodule "HIT-CGRA-Generator"]
+	path = HIT-CGRA-Generator
+	url = git@github.com:chaozhang2000/HIT-CGRA-Generator.git
