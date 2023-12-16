@@ -4,3 +4,6 @@
 [submodule "HIT-CGRA-Generator"]
 	path = HIT-CGRA-Generator
 	url = git@github.com:chaozhang2000/HIT-CGRA-Generator.git
+[submodule "HIT-CGRA-Workbench"]
+	path = HIT-CGRA-Workbench
+	url = git@github.com:chaozhang2000/HIT-CGRA-Workbench.git
