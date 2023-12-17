@@ -21,5 +21,5 @@ sudo apt-get install clang-12 make cmake build-essential llvm llvm-12-dev graphv
 
 1. add CGRA\_WORKBENCH to ~/.bashrc  
 
-** For more information, please read the README.md file in this three folders.**
+**For more information, please read the README.md file in this three folders**
 
