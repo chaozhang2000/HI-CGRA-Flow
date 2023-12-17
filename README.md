@@ -15,7 +15,7 @@ sudo apt-get install make curl openjdk-11-jdk
 
 1. install dependency
 ```
-sudo apt-get install clang-12 make cmake build-essential llvm llvm-12-dev graphviz
+sudo apt-get install clang-12 make build-essential llvm llvm-12-dev graphviz
 ```
 2. add MAPPER\_HOME to ~/.bashrc
 
