@@ -1,5 +1,7 @@
 # Project configuration
 
+Ubuntu 22.04
+
 ## HIT-CGRA-Generator
 
 1.  Install `mill`. Refer to [the Manual section in this guide][mill]. mv the mill to ./HIT-CGRA-Generator
