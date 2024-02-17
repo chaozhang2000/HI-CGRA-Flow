@@ -27,7 +27,7 @@ sudo apt-get install clang-12 make build-essential llvm llvm-12-dev graphviz bis
 
 1. install dependency
 ```
-sudo apt-get install make build-essential bison flex
+sudo apt-get install make build-essential bison flex libncurses-dev
 ```
 2. add CGRA\_EMU\_HOME to ~/.bashrc
 
