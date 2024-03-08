@@ -1,12 +1,12 @@
 [submodule "HI-CGRA-Emu"]
 	path = HI-CGRA-Emu
-	url = git@github.com:chaozhang2000/HI-CGRA-Emu.git
+	url = https://github.com/chaozhang2000/HI-CGRA-Emu.git
 [submodule "HI-CGRA-Mapper"]
 	path = HI-CGRA-Mapper
-	url = git@github.com:chaozhang2000/HI-CGRA-Mapper.git
+	url = https://github.com/chaozhang2000/HI-CGRA-Mapper.git
 [submodule "HI-CGRA-Workbench"]
 	path = HI-CGRA-Workbench
-	url = git@github.com:chaozhang2000/HI-CGRA-Workbench.git
+	url = https://github.com/chaozhang2000/HI-CGRA-Workbench.git
 [submodule "HI-CGRA-Generator"]
 	path = HI-CGRA-Generator
-	url = git@github.com:chaozhang2000/HI-CGRA-Generator.git
+	url = https://github.com/chaozhang2000/HI-CGRA-Generator.git
