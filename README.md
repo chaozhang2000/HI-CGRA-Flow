@@ -4,8 +4,7 @@ Ubuntu 22.04
 
 ## HIT-CGRA-Generator
 
-1.  Install `mill`. Refer to [the Manual section in this guide][mill]. mv the mill to ./HIT-CGRA-Generator
-2.  install dependency.
+1.  install dependency.
 ```
 sudo apt-get install make curl openjdk-11-jdk
 ```
