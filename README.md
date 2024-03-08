@@ -1,9 +1,9 @@
 # Brief description
 
-**HI-CGRA-Generator:** Use Chisel to generator and simulate CGRA hardware. 
-**HI-CGRA-Mapper:** Use llvm to generator DFG for kernel program, map DFG node to MRRG, generate the bitstram.
-**HI-CGRA-Emu:** A C++ clock accurate CGRA Simulator
-**HI-CGRA-Workbench:** A workbench where compile the kernel and use HI-CGRA-Mapper to generate DFG and bitstream.
+**HI-CGRA-Generator:** Use Chisel to generator and simulate CGRA hardware.  
+**HI-CGRA-Mapper:** Use llvm to generator DFG for kernel program, map DFG node to MRRG, generate the bitstram. 
+**HI-CGRA-Emu:** A C++ clock accurate CGRA Simulator 
+**HI-CGRA-Workbench:** A workbench where compile the kernel and use HI-CGRA-Mapper to generate DFG and bitstream. 
 
 Except for HI-CGRA-Generator, which is currently under development, all others have already formed a demo,and detailed documentation work will begin after HI-CGRA-Generator demo is formed
 
