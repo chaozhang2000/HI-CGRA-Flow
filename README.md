@@ -11,6 +11,15 @@ Except for HI-CGRA-Generator, which is currently under development, all others h
 
 Ubuntu 22.04
 
+## Clone
+
+```shell
+git clone https://github.com/chaozhang2000/HI-CGRA-Flow.git
+cd ./HI-CGRA-Flow.git
+git submodule init
+git submodule update
+```
+
 ## HI-CGRA-Generator
 
 1.  install dependency.
@@ -47,15 +56,6 @@ sudo apt-get install make build-essential bison flex libncurses-dev
 **For more information, please read the README.md file in this four folders**
 
 # Demo
-
-## Clone
-
-```shell
-git clone https://github.com/chaozhang2000/HI-CGRA-Flow.git
-cd ./HI-CGRA-Flow.git
-git submodule init
-git submodule update
-```
 
 ## Compile conv3 demo
 
