@@ -48,6 +48,15 @@ sudo apt-get install make build-essential bison flex libncurses-dev
 
 # Demo
 
+## Clone
+
+```shell
+git clone https://github.com/chaozhang2000/HI-CGRA-Flow.git
+cd ./HI-CGRA-Flow.git
+git submodule init
+git submodule update
+```
+
 ## Compile conv3 demo
 
 You can read the code of conv3 kernel in "./HI-CGRA-Workbench/kernels/conv3/conv3.c".
@@ -60,11 +69,10 @@ void kernel(int *line1,int *line2,int *line3,int *result, long k){
 }
 ```
 
-You need to compile the HI-CGRA-Mapper first, in this demo we use defconfig.
+You need to compile the HI-CGRA-Mapper first, you should config the project at the first compilation.
 ```shell
 cd ./HI-CGRA-Mapper
-make defconfig
-make
+make defconfig # or make menuconfig
 ```
 
 Compile the conv3 demo in HI-CGRA-Workbench.
@@ -145,31 +153,68 @@ This MRRG shows the resources that CGRAs of five PEs can use within two clock cy
 This demo's CGRA Hardware is shown in this following figure.MRRG for this CGRA is bigger.
 ```
   the default CGRA
-  --------------------------------> x
-  col0  col1  col2  col3
-  |----| |----| |----| |----|
-  |    |-|    |-|    |-|    | row3
-  |----| |----| |----| |----|
-    |      |      |      |
-  |----| |----| |----| |----|
-  |    |-|    |-|    |-|    | row2
-  |----| |----| |----| |----|
-    |      |      |      |
-  |----| |----| |----| |----|
-  | 4  |-|....|-|    |-|    | row1   ^ y
-  |----| |----| |----| |----|        |
-    |      |      |      |           |
-  |----| |----| |----| |----|        |
-  | 0  |-| 1  |-| 2  |-| 3  | row0   |
-  |----| |----| |----| |----|        |
-    |      |      |      |
-  |----| |----| |----| |----|
-  |MeM0| |MeM1| |Mem2| |MeM3| 
-  |----| |----| |----| |----|
-```
-In this demo,CGRA is 4x4 and only PE 0,1,2,3 can access Datamem. In this demo we constrain load and store opts which access the first row of image to PE0 ,sencond row to PE1, third row to PE2 and result to PE3.You can see this constraint in "./HI-CGRA-Workbench/kernel/conv3/mapconstraint.json".This constraint means that a specific memory access operation will only be mapped to specific PEs.
 
-The demo conv3's DFG mapped in the MRRG is shown in the following figure.The DFGNode ID and operation name in the PE indicate which DFGNode occupies the PE in a certain clock cycle.Operands of DFGNodes which comes from the calculation results of other DFGNodes are represented by edges in this figure.Operands of DFGNodes which comes from const or function param is put in PE's constmem or control regs,this is not show in this figure.
+          col0   col1   col2   col3
+  |----| |----| |----| |----| |----|
+  |Mem3| |    |-|    |-|    |-|    | row3
+  |----| |----| |----| |----| |----|
+           |      |      |      |
+  |----| |----| |----| |----| |----|
+  |Mem2| |    |-|    |-|    |-|    | row2
+  |----| |----| |----| |----| |----|
+           |      |      |      |
+  |----| |----| |----| |----| |----|
+  |Mem1| | 4  |-|....|-|    |-|    | row1   ^ y
+  |----| |----| |----| |----| |----|        |
+           |      |      |      |           |
+  |----| |----| |----| |----| |----|        |
+  |Mem0| | 0  |-| 1  |-| 2  |-| 3  | row0   |
+  |----| |----| |----| |----| |----|        |
+
+  --------------------------------> x
+```
+In this demo,CGRA is 4x4.Each PE is connected to the upper,lower,left,and right PEs.Each PE in a row can access a datamem,for example,PE0,1,2,3 can access Datamem0.You can read CGRA params in "./HI-CGRA-Workbench/kernel/conv3/param.json". The partial content of this file is as follows.
+```json
+{
+  	"kernel"                :"kernel",
+	"rows"			:4,
+	"cols"			:4,
+	"instmemsize"		:10,
+	"constmemsize"		:8,
+	"shiftconstmemsize"	:8,
+	"datamemsize"		:400,
+	"optlatency"		:{"load" : 1,"store":1},
+	"optpipeline"		:["load" ,"store"],
+	"datamemnum"		:4,
+	"datamemaccess"		:{
+	 				"0" : [0,1,2,3],
+					"1" : [4,5,6,7],
+					"2" : [8,9,10,11],
+					"3" : [12,13,14,15]
+	 			}
+}
+```
+* **kernel:** name of kernel function
+* **rows:** rows of cgra.
+* **instmemsize:** size of instmem in each PE .
+* **datamemsize:** size of each datamem.
+* **optlatency:** define which operations require multiple cycles.""load":1" mean load opt need one cycle.Operations that can get result within the current clock cycle have a latency value of 0.
+* **optpipeline:** define which operations is pipelined,but not implemented yet.Currently,only pipelined multi-cycle operations are supported for multi-cycle operations, so just need to add them to optlatency.
+* **datamemnum:** num of datamems.should >= mems define in datamemaccess.
+* **datamemaccess:** define which PEs can access each memory,""0":[0,1,2,3]" mean PE 0,1,2,3 can access datamem 0. datamem id start from 0.
+You can change rows and cols to map conv3 to different cgra to start. We have test rows and cols in range of 4 to 9.You can also change datamemaccess to test.You can also change opt's latency,for example add ""mul":1" to test.
+
+In this demo we constrain load and store opts which access the first row of image to datamem0 ,sencond row to datamem1, third row to datamem2 and result to datamem3.You can see this constraint in "./HI-CGRA-Workbench/kernel/conv3/mapconstraint.json".This constraint means that a specific memory access operation will only be mapped to specific PEs,for example,load opt that access the first row of image,will only by mapped to the PE can access Datamem0, in this example is PE0,1,2,3.The mapconstraint.json is as follows.
+```json
+{
+  "DFGNodeIDCGRANodeID"		: [[0,5]],
+  "DFGNodeIDMemID"		: [[2,0],[4,0],[9,0],[13,1],[17,1],[21,1],[25,2],[29,2],[33,2],[37,3]]
+}
+```
+* **DFGNodeIDCGRANodeID:** "[a,b]" This parameter specifies that a DFGNode with ID=a will be forcibly mapped to a CGRANode with ID=b.
+* **DFGNodeIDMemID:** "[a,b]" This parameter specifies that a DFGNode with ID=a will be mapped to a CGRANode which can access Datamem b.Every mem access opt should be bound to a specific CGRANode.If a DFGNode is not mem access opt, it will be ignore.A mem access opt can also be bound to a certain CGRANode using DFGNodeIDCGRANodeID.
+
+The demo conv3's DFG mapped in the MRRG is shown in the following figure.This result is not the latest version. In this picture,we bound mem access opts to PE0,1,2,3. Each PE can access one datamem.And all opts latency is consider 0.The DFGNode ID and operation name in the PE indicate which DFGNode occupies the PE in a certain clock cycle.Operands of DFGNodes which comes from the calculation results of other DFGNodes are represented by edges in this figure.Operands of DFGNodes which comes from const or function param is put in PE's constmem or control regs,this is not show in this figure.
 <div style="text-align:center;">
     <img src="./doc/convmrrg1.png" alt="convmrrg1" style="max-width:100%; height:auto; display:inline-block;">
 </div>
@@ -181,23 +226,19 @@ HI-CGRA-Mapper successfully maps with II = 6.We need 6 clock cycles to calculate
 
 ## Run conv3 demo in HI-CGRA-Emu
 
-You need to compile the HI-CGRA-Emu first, in this demo we use defconfig.
+You need to compile the HI-CGRA-Emu first, config the project before the first compilation..
 ```shell
 cd ./HI-CGRA-Emu
-make defconfig
-make
+make defconfig # or make menuconfig
 ```
 
-You need to copy the bitstream.bin to "./HI-CGRA-Emu".(A correct bitstream.bit of conv3 have been saved in ./HI-CGRA-Emu. If you want to use the bitstream.bin compiled by yourself,cp it from HI-CGRA-Workbench,else jump this step)
+Then you can compile run the Emu to simulate.In "./HI-CGRA-Workbench". make sure you have compiled the kernel, the bitstream.bin and param.json generated by HI-CGRA-Mapper will be pass to HI-CGRA-Emu.
 ```shell
-cp ../HI-CGRA-Workbench/outputs/conv3_0/bitstream.bin ./
+cd ./HI-CGRA-Workbench
+make sim KERNEL=conv3
 ```
-
-Then you can run the Emu to simulate.
-```shell
-make run
-```
-When run a applicate in HI-CGRA-Emu,you need config the CGRA using the bitstream.bin and load data to DataMems first.You can read code in HI-CGRA-Emu/src/main.c. Code of HI-CGRA-Emu is simple now, it's also a good way to understand our hardware's behavior.
+When run a applicate in HI-CGRA-Emu,you need load data to DataMems first. This part of code is put in "./HI-CGRA-Workbench/kernel/conv3/kernel.h". for a new applicate, you need write your own kernel.h, but don't modify the function name.
+Code of HI-CGRA-Emu is simple now, it's also a good way to understand our hardware's behavior.
 
 You can see the result shown in following figure.
 <div style="text-align:center;">
