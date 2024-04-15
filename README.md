@@ -35,8 +35,10 @@ sudo apt-get install sbt
 ## HI-CGRA-Sim
 
 1.  install dependency.
-
-verilator v5.020 is tested
+```
+sudo apt-get install make verilator build-essential gtkwave
+```
+verilator v5.020 and v4.038 is tested
 
 ## HI-CGRA-Mapper
 
