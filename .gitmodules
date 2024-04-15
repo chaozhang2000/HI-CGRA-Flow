@@ -10,3 +10,6 @@
 [submodule "HI-CGRA-Generator"]
 	path = HI-CGRA-Generator
 	url = https://github.com/chaozhang2000/HI-CGRA-Generator.git
+[submodule "HI-CGRA-Sim"]
+	path = HI-CGRA-Sim
+	url = https://github.com/chaozhang2000/HI-CGRA-Sim.git
