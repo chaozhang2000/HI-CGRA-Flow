@@ -13,3 +13,6 @@
 [submodule "HI-CGRA-Sim"]
 	path = HI-CGRA-Sim
 	url = https://github.com/chaozhang2000/HI-CGRA-Sim.git
+[submodule "HI-CGRA-fpga"]
+	path = HI-CGRA-fpga
+	url = https://github.com/chaozhang2000/HI-CGRA-fpga.git
